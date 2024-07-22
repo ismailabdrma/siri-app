@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SIRI Input</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        form {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f7f7f9;
+            font-size: 1.1em;
+        }
+
+        td {
+            vertical-align: top;
+        }
+
+        input[type="number"], select {
+            width: 90%;
+            padding: 8px;
+            margin-top: 4px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 5px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            top: 100%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enter Company Information</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="error-messages">
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ field.label }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    <h1>Enter Company Information</h1>
+    <form method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>Dimension</th>
+                <th>Assessment Matrix Score</th>
+                <th>Cost Categories as a Percentage of Annual Revenue</th>
+                <th>Top KPI Categories (Select 5)</th>
+            </tr>
+            <tr>
+                <td>Vertical Integration
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> Isolated departments with no coordination.</p>
+                            <p><strong>1:</strong> Basic coordination between departments.</p>
+                            <p><strong>2:</strong> Basic coordination between departments.</p>
+                            <p><strong>3:</strong> Moderate integration with regular inter-departmental communication.</p>
+                            <p><strong>4:</strong> High integration with collaborative workflows.</p>
+                            <p><strong>5:</strong> Fully integrated departments with seamless workflows.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="vertical_integration_score" step="1" min="0" max="5"></td>
+                <td>Aftermarket Services / Warranty: <input type="number" name="aftermarket_services_warranty" step="0.01" min="0" max="100"> %</td>
+                <td>
+                    <label><input type="checkbox" name="kpi_categories" value="Asset & Equipment Efficiency"> Asset & Equipment Efficiency</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Horizontal Integration
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> No collaboration with external partners.</p>
+                            <p><strong>1:</strong> Minimal collaboration with few partners.</p>
+                            <p><strong>2:</strong> Basic collaboration with key partners.</p>
+                            <p><strong>3:</strong> Moderate collaboration with regular data sharing.</p>
+                            <p><strong>4:</strong> High collaboration with integrated systems.</p>
+                            <p><strong>5:</strong> Full collaboration with real-time data exchange and joint ventures.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="horizontal_integration_score" step="1" min="0" max="5"></td>
+                <td>Depreciation: <input type="number" name="depreciation" step="0.01" min="0" max="100"> %</td>
+                <td>
+                    <label><input type="checkbox" name="kpi_categories" value="Workforce Efficiency"> Workforce Efficiency</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Integrated Product Lifecycle
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> Isolated lifecycle stages.</p>
+                            <p><strong>1:</strong> Minimal integration of some lifecycle stages.</p>
+                            <p><strong>2:</strong> Basic integration of some lifecycle stages.</p>
+                            <p><strong>3:</strong> Moderate integration with coordinated lifecycle management.</p>
+                            <p><strong>4:</strong> High integration with lifecycle management systems.</p>
+                            <p><strong>5:</strong> Fully integrated lifecycle with continuous data flow and improvement.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="integrated_product_lifecycle_score" step="1" min="0" max="5"></td>
+                <td>Labour: <input type="number" name="labour" step="0.01" min="0" max="100"> %</td>
+                <td>
+                    <label><input type="checkbox" name="kpi_categories" value="Utility Efficiency"> Utility Efficiency</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Shop Floor Automation
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> No automated shop floor operations; entirely manual.</p>
+                            <p><strong>1:</strong> Minimal automation with mostly manual tasks.</p>
+                            <p><strong>2:</strong> Basic automation with some manual tasks.</p>
+                            <p><strong>3:</strong> Balanced mix of automated and manual operations.</p>
+                            <p><strong>4:</strong> Highly automated shop floor with minimal manual tasks.</p>
+                            <p><strong>5:</strong> Fully automated shop floor with real-time monitoring and control.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="shop_floor_automation_score" step="1" min="0" max="5"></td>
+                <td>Maintenance & Repair: <input type="number" name="maintenance_repair" step="0.01" min="0" max="100"> %</td>
+                <td>
+                    <label><input type="checkbox" name="kpi_categories" value="Inventory Efficiency"> Inventory Efficiency</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Enterprise Automation
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> No automation; entirely manual processes.</p>
+                            <p><strong>1:</strong> Minimal automation with mostly manual processes.</p>
+                            <p><strong>2:</strong> Basic automation with some manual intervention.</p>
+                            <p><strong>3:</strong> Moderate automation with integrated systems but still some manual steps.</p>
+                            <p><strong>4:</strong> High automation with most processes automated and minimal manual intervention.</p>
+                            <p><strong>5:</strong> Fully automated processes with advanced robotics and no manual intervention.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="enterprise_automation_score" step="1" min="0" max="5"></td>
+                <td>Raw Materials & Consumables: <input type="number" name="raw_materials_consumables" step="0.01" min="0" max="100"> %</td>
+                <td>
+                    <label><input type="checkbox" name="kpi_categories" value="Materials Efficiency"> Materials Efficiency</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Facility Automation
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> No automation; entirely manual processes.</p>
+                            <p><strong>1:</strong> Minimal automation with mostly manual processes.</p>
+                            <p><strong>2:</strong> Basic automation with some manual intervention.</p>
+                            <p><strong>3:</strong> Moderate automation with integrated systems but still some manual steps.</p>
+                            <p><strong>4:</strong> High automation with most processes automated and minimal manual intervention.</p>
+                            <p><strong>5:</strong> Fully automated processes with advanced robotics and no manual intervention.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="facility_automation_score" step="1" min="0" max="5"></td>
+                <td>Rental & Operating Lease: <input type="number" name="rental_operating_lease" step="0.01" min="0" max="100"> %</td>
+                <td>
+                    <label><input type="checkbox" name="kpi_categories" value="Process Quality"> Process Quality</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Shop Floor Connectivity
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> No connectivity; isolated systems.</p>
+                            <p><strong>1:</strong> Little connectivity; basic connections between some systems.</p>
+                            <p><strong>2:</strong> Basic connectivity; some systems can communicate.</p>
+                            <p><strong>3:</strong> Moderate connectivity; most systems are networked.</p>
+                            <p><strong>4:</strong> High connectivity; all systems are interconnected and can share data.</p>
+                            <p><strong>5:</strong> Full connectivity with advanced network protocols and seamless data exchange.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="shop_floor_connectivity_score" step="1" min="0" max="5"></td>
+                <td>Research & Development (R&D): <input type="number" name="research_development" step="0.01" min="0" max="100"> %</td>
+                <td>
+                    <label><input type="checkbox" name="kpi_categories" value="Product Quality"> Product Quality</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Enterprise Connectivity
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> No connectivity; isolated systems.</p>
+                            <p><strong>1:</strong> Little connectivity; basic connections between some systems.</p>
+                            <p><strong>2:</strong> Basic connectivity; some systems can communicate.</p>
+                            <p><strong>3:</strong> Moderate connectivity; most systems are networked.</p>
+                            <p><strong>4:</strong> High connectivity; all systems are interconnected and can share data.</p>
+                            <p><strong>5:</strong> Full connectivity with advanced network protocols and seamless data exchange.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="enterprise_connectivity_score" step="1" min="0" max="5"></td>
+                <td>Selling, General & Administrative Expense (SG&A): <input type="number" name="selling_general_administrative_expense" step="0.01" min="0" max="100"> %</td>
+                <td>
+                    <label><input type="checkbox" name="kpi_categories" value="Safety"> Safety</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Facility Connectivity
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> No connectivity; isolated systems.</p>
+                            <p><strong>1:</strong> Little connectivity; basic connections between some systems.</p>
+                            <p><strong>2:</strong> Basic connectivity; some systems can communicate.</p>
+                            <p><strong>3:</strong> Moderate connectivity; most systems are networked.</p>
+                            <p><strong>4:</strong> High connectivity; all systems are interconnected and can share data.</p>
+                            <p><strong>5:</strong> Full connectivity with advanced network protocols and seamless data exchange.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="facility_connectivity_score" step="1" min="0" max="5"></td>
+                <td>Transportation & Distribution: <input type="number" name="transportation_distribution" step="0.01" min="0" max="100"> %</td>
+                <td>
+                    <label><input type="checkbox" name="kpi_categories" value="Security"> Security</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Shop Floor Intelligence
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> No intelligence; purely manual monitoring.</p>
+                            <p><strong>1:</strong> Minimal intelligence with basic sensors and data collection.</p>
+                            <p><strong>2:</strong> Basic intelligence with some sensors and data collection.</p>
+                            <p><strong>3:</strong> Moderate intelligence with data analysis and reporting.</p>
+                            <p><strong>4:</strong> High intelligence with predictive analytics and automated responses.</p>
+                            <p><strong>5:</strong> Fully intelligent facility with real-time monitoring, advanced analytics, and autonomous operations.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="shop_floor_intelligence_score" step="1" min="0" max="5"></td>
+                <td>Utilities: <input type="number" name="utilities" step="0.01" min="0" max="100"> %</td>
+                <td>
+                    <label><input type="checkbox" name="kpi_categories" value="Planning & Scheduling Effectiveness"> Planning & Scheduling Effectiveness</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Enterprise Intelligence
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> No intelligence; purely manual monitoring.</p>
+                            <p><strong>1:</strong> Minimal intelligence with basic sensors and data collection.</p>
+                            <p><strong>2:</strong> Basic intelligence with some sensors and data collection.</p>
+                            <p><strong>3:</strong> Moderate intelligence with data analysis and reporting.</p>
+                            <p><strong>4:</strong> High intelligence with predictive analytics and automated responses.</p>
+                            <p><strong>5:</strong> Fully intelligent facility with real-time monitoring, advanced analytics, and autonomous operations.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="enterprise_intelligence_score" step="1" min="0" max="5"></td>
+                <td>Planning Horizon (Select One): 
+                    <select name="planning_horizon">
+                        <option value="Strategic">Strategic</option>
+                        <option value="Tactical">Tactical</option>
+                        <option value="Operational">Operational</option>
+                    </select>
+                </td>
+                <td>
+                    <label><input type="checkbox" name="kpi_categories" value="Production Flexibility"> Production Flexibility</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Facility Intelligence
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> No intelligence; purely manual monitoring.</p>
+                            <p><strong>1:</strong> Minimal intelligence with basic sensors and data collection.</p>
+                            <p><strong>2:</strong> Basic intelligence with some sensors and data collection.</p>
+                            <p><strong>3:</strong> Moderate intelligence with data analysis and reporting.</p>
+                            <p><strong>4:</strong> High intelligence with predictive analytics and automated responses.</p>
+                            <p><strong>5:</strong> Fully intelligent facility with real-time monitoring, advanced analytics, and autonomous operations.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="facility_intelligence_score" step="1" min="0" max="5"></td>
+                <td>
+                    <td>
+                        <label><input type="checkbox" name="kpi_categories" value="Workforce Flexibility"> Workforce Flexibility</label>
+                    </td>
+                </td>
+            </tr>
+            <tr>
+                <td>Workforce Learning & Development
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> No structured learning and development.</p>
+                            <p><strong>1:</strong> Minimal learning and development programs.</p>
+                            <p><strong>2:</strong> Basic learning and development programs.</p>
+                            <p><strong>3:</strong> Moderate learning and development with regular opportunities.</p>
+                            <p><strong>4:</strong> Advanced learning and development with continuous improvement.</p>
+                            <p><strong>5:</strong> Fully embedded culture of continuous learning and development.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="workforce_learning_development_score" step="1" min="0" max="5"></td>
+                <td>
+                    <td>
+                        <label><input type="checkbox" name="kpi_categories" value="Time to Market"> Time to Market</label>
+                    </td>
+                </td>
+            </tr>
+            <tr>
+                <td>Leadership Competency
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> Leaders lack Industry 4.0 knowledge and skills.</p>
+                            <p><strong>1:</strong> Minimal competency in Industry 4.0.</p>
+                            <p><strong>2:</strong> Basic competency in Industry 4.0.</p>
+                            <p><strong>3:</strong> Moderate competency with ongoing development.</p>
+                            <p><strong>4:</strong> High competency with strong leadership in Industry 4.0 initiatives.</p>
+                            <p><strong>5:</strong> Fully competent leaders driving continuous transformation and innovation.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="leadership_competency_score" step="1" min="0" max="5"></td>
+                <td>
+                    <td>
+                        <label><input type="checkbox" name="kpi_categories" value="Time to Delivery"> Time to Delivery</label>
+                    </td>
+                </td>
+            </tr>
+            <tr>
+                <td>Inter- & Intra- Company Collaboration
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> No collaboration with other companies.</p>
+                            <p><strong>1:</strong> Minimal collaboration with a few companies.</p>
+                            <p><strong>2:</strong> Basic collaboration with a few companies.</p>
+                            <p><strong>3:</strong> Moderate collaboration with several companies.</p>
+                            <p><strong>4:</strong> High collaboration with many companies and regular interaction.</p>
+                            <p><strong>5:</strong> Full collaboration with extensive network and seamless interaction.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="inter_intra_company_collaboration_score" step="1" min="0" max="5"></td>
+                <td>
+                    <select name="industry_benchmark">
+                        <option value="Aerospace">Aerospace</option>
+                        <option value="Automotive">Automotive</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Energy & Chemicals (Downstream)">Energy & Chemicals (Downstream)</option>
+                        <option value="Food & Beverage">Food & Beverage</option>
+                        <option value="General Manufacturing">General Manufacturing</option>
+                        <option value="Logistics">Logistics</option>
+                        <option value="Oil & Gas (Upstream)">Oil & Gas (Upstream)</option>
+                        <option value="Machinery & Equipment">Machinery & Equipment</option>
+                        <option value="Medical Technology">Medical Technology</option>
+                        <option value="Pharmaceuticals">Pharmaceuticals</option>
+                        <option value="Precision Parts">Precision Parts</option>
+                        <option value="Semiconductors">Semiconductors</option>
+                        <option value="Textile, Clothing, Leather & Footwear">Textile, Clothing, Leather & Footwear</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Strategy & Governance
+                    <span class="tooltip">ℹ️
+                        <div class="tooltiptext">
+                            <p><strong>0:</strong> No clear strategy or governance framework.</p>
+                            <p><strong>1:</strong> Basic strategy and governance in place.</p>
+                            <p><strong>2:</strong> Basic strategy and governance in place.</p>
+                            <p><strong>3:</strong> Moderate strategy and governance with regular reviews.</p>
+                            <p><strong>4:</strong> Advanced strategy and governance with strong oversight.</p>
+                            <p><strong>5:</strong> Fully developed strategy and governance with continuous improvement and alignment with Industry 4.0 goals.</p>
+                        </div>
+                    </span>
+                </td>
+                <td><input type="number" name="strategy_governance_score" step="1" min="0" max="5"></td>
+                <td>
+                
+                </td>
+            </tr>
+        </table>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

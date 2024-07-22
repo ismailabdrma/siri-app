@@ -1,0 +1,88 @@
+
+
+{% block content %}
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        position: relative;
+    }
+
+    h2 {
+        text-align: center;
+        color: #444;
+        margin-bottom: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-bottom: 5px;
+        color: #333;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1em;
+    }
+
+    button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+        text-align: center;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .home-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: #28a745;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        text-decoration: none;
+        font-size: 1em;
+        cursor: pointer;
+    }
+
+    .home-button:hover {
+        background-color: #218838;
+    }
+</style>
+
+<div class="form-container">
+    <a href="{% url 'home' %}" class="home-button">Home</a>
+    <h2>Add a new Company</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Company</button>
+    </form>
+</div>
+{% endblock %}

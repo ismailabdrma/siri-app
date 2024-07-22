@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} STCIIy{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        
+        .logout-button {
+            display: block;
+            text-align: left;
+            text-decoration: none;
+            color: inherit;
+            font-size: 0.8em;
+            letter-spacing: 0.225em;
+            text-transform: uppercase;
+            padding: 0.5em 0;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-weight: normal;
+        }
+        
+       
+        
+       
+        
+    
+        
+    </style>
+</head>
+<body class="landing is-preload">
+
+    <!-- Page Wrapper -->
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header" class="alt">
+            <h1><a href="{% url 'home' %}"> STCII</a></h1>
+            <nav id="nav">
+                <ul>
+                    <li class="special">
+                        <a href="#menu" class="menuToggle"><span>Menu</span></a>
+                        <div id="menu">
+                            <ul>
+                                <li><a href="{% url 'home' %}">Home</a></li>
+                                {% if user.is_authenticated %}
+                                    <li><a href="{% url 'companies' %}">Your Companies</a></li>
+                                    <li>
+                                        <form id="logout-form" method="POST" action="{% url 'logout' %}" >
+                                            {% csrf_token %}
+                                            <button type="submit" class="logout-button">Logout</button>
+                                        </form>
+                                    </li>
+                                    <li><a href="{% url 'about' %}">About us</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'login' %}">Login</a></li>
+                                    <li><a href="{% url 'register' %}">Register</a></li>
+                                    <li><a href="{% url 'about' %}">About us</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <ul class="icons">
+                <!-- Add icons here -->
+            </ul>
+            <ul class="copyright">
+                <li>&copy; 2024 STCII. All rights reserved.</li>
+            </ul>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery.scrollex.min.js' %}"></script>
+    <script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
+    <script src="{% static 'js/browser.min.js' %}"></script>
+    <script src="{% static 'js/breakpoints.min.js' %}"></script>
+    <script src="{% static 'js/util.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

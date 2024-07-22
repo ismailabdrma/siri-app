@@ -1,0 +1,233 @@
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SIRI Calculation Result</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #444;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        p, ul {
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f9f9f9;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        td {
+            vertical-align: top;
+            font-size: 1.05em;
+        }
+
+        .highlight {
+            background-color: #e0f7fa;
+        }
+
+        .prioritized {
+            background-color: #ffd54f;
+        }
+
+        .button-container {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .timestamp {
+            font-size: 0.9em;
+            color: #777;
+            display: inline-block;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <a href="{% url 'companies' %}" class="button">Back to Companies</a>
+    </div>
+
+    <h1>SIRI Calculation Result</h1>
+    <div class="container">
+        <h2>Company Input</h2>
+        <p>
+            <strong>Company:</strong> {{ siri_calculation.company_input.company.name }}
+            <span class="timestamp">({{ siri_calculation.created_at|date:"Y-m-d H:i" }})</span>
+        </p>
+        <p><strong>Assessment Matrix Score:</strong></p>
+        <ul>
+            <li>Vertical Integration: {{ siri_calculation.company_input.vertical_integration_score }}</li>
+            <li>Horizontal Integration: {{ siri_calculation.company_input.horizontal_integration_score }}</li>
+            <li>Integrated Product Lifecycle: {{ siri_calculation.company_input.integrated_product_lifecycle_score }}</li>
+            <li>Shop Floor Automation: {{ siri_calculation.company_input.shop_floor_automation_score }}</li>
+            <li>Enterprise Automation: {{ siri_calculation.company_input.enterprise_automation_score }}</li>
+            <li>Facility Automation: {{ siri_calculation.company_input.facility_automation_score }}</li>
+            <li>Shop Floor Connectivity: {{ siri_calculation.company_input.shop_floor_connectivity_score }}</li>
+            <li>Enterprise Connectivity: {{ siri_calculation.company_input.enterprise_connectivity_score }}</li>
+            <li>Facility Connectivity: {{ siri_calculation.company_input.facility_connectivity_score }}</li>
+            <li>Shop Floor Intelligence: {{ siri_calculation.company_input.shop_floor_intelligence_score }}</li>
+            <li>Enterprise Intelligence: {{ siri_calculation.company_input.enterprise_intelligence_score }}</li>
+            <li>Facility Intelligence: {{ siri_calculation.company_input.facility_intelligence_score }}</li>
+            <li>Workforce Learning & Development: {{ siri_calculation.company_input.workforce_learning_development_score }}</li>
+            <li>Leadership Competency: {{ siri_calculation.company_input.leadership_competency_score }}</li>
+            <li>Inter- & Intra- Company Collaboration: {{ siri_calculation.company_input.inter_intra_company_collaboration_score }}</li>
+            <li>Strategy & Governance: {{ siri_calculation.company_input.strategy_governance_score }}</li>
+        </ul>
+        <p><strong>Cost Categories as a Percentage of Annual Revenue:</strong></p>
+        <ul>
+            <li>Aftermarket Services / Warranty: {{ siri_calculation.company_input.aftermarket_services_warranty }}%</li>
+            <li>Depreciation: {{ siri_calculation.company_input.depreciation }}%</li>
+            <li>Labour: {{ siri_calculation.company_input.labour }}%</li>
+            <li>Maintenance & Repair: {{ siri_calculation.company_input.maintenance_repair }}%</li>
+            <li>Raw Materials & Consumables: {{ siri_calculation.company_input.raw_materials_consumables }}%</li>
+            <li>Rental & Operating Lease: {{ siri_calculation.company_input.rental_operating_lease }}%</li>
+            <li>Research & Development (R&D): {{ siri_calculation.company_input.research_development }}%</li>
+            <li>Selling, General & Administrative Expense (SG&A): {{ siri_calculation.company_input.selling_general_administrative_expense }}%</li>
+            <li>Transportation & Distribution: {{ siri_calculation.company_input.transportation_distribution }}%</li>
+            <li>Utilities: {{ siri_calculation.company_input.utilities }}%</li>
+        </ul>
+        <p><strong>Top KPI Categories:</strong></p>
+        <ul>
+            {% for kpi in siri_calculation.company_input.kpi_categories %}
+                <li>{{ kpi }}</li>
+            {% endfor %}
+        </ul>
+        <h2>Results</h2>
+        <h3>Cost Factor</h3>
+        <table>
+            <tr>
+                <th>Dimension</th>
+                <th>Cost Factor</th>
+            </tr>
+            {% for dimension, value in siri_calculation.cost_factor.items %}
+                <tr>
+                    <td>{{ dimension }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <p><strong>Total Cost Factor:</strong> {{ siri_calculation.total_cost_factor }}</p>
+        <h3>KPI Factor</h3>
+        <table>
+            <tr>
+                <th>Dimension</th>
+                <th>KPI Factor</th>
+            </tr>
+            {% for dimension, value in siri_calculation.kpi_factor.items %}
+                <tr>
+                    <td>{{ dimension }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <p><strong>Total KPI Factor:</strong> {{ siri_calculation.total_kpi_factor }}</p>
+        <h3>Proximity Factor</h3>
+        <table>
+            <tr>
+                <th>Dimension</th>
+                <th>Proximity Factor</th>
+                <th>Normalized Proximity Factor</th>
+            </tr>
+            {% for dimension, value in siri_calculation.proximity_factor.items %}
+                <tr>
+                    <td>{{ dimension }}</td>
+                    <td>{{ value }}</td>
+                    <td>{{ siri_calculation.normalized_proximity_factor|get_item:dimension }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <p><strong>Total Proximity Factor:</strong> {{ siri_calculation.total_proximity_factor }}</p>
+
+        <h3>Impact Value</h3>
+        <table>
+            <tr>
+                <th>Dimension</th>
+                <th>Impact Value</th>
+            </tr>
+            {% for dimension, value in siri_calculation.impact_value.items %}
+                <tr>
+                    <td>{{ dimension }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <h3>Prioritised Dimensions</h3>
+        <table>
+            <tr>
+                <th>Dimension</th>
+                <th>Impact Value</th>
+            </tr>
+            {% for dimension, value in prioritized_dimensions %}
+                <tr class="highlight">
+                    <td>{{ dimension }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
